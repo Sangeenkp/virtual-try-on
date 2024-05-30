@@ -1,0 +1,13 @@
+transformers
+torch
+pillow
+numpy
+opencv-python
+insightface
+onnxruntime
+diffusers
+scipy
+ftfy
+accelerate
+pyngrok
+flask_ngrok
