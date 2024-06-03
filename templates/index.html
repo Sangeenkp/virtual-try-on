@@ -1,29 +1,87 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}" />
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='rapidlabs-logo.png') }}" />
-    <title>Stable Diffusion App</title>
-</head>
-<body>
-  <h1>Stable Diffusion App</h1>
-    <p>Generate images with stable diffusion for free! Enter your prompt below and hit "Create" to generate an image (takes ~10 seconds per image).</p>
-    <p>Companion article: <a href="https://www.assemblyai.com/blog/build-a-free-stable-diffusion-app-with-a-gpu-backend/">Build a free Stable Diffusion app with a GPU backend</a> on the <href="https://www.assemblyai.com/blog/">AssemblyAI Blog</a>.</p>
-    <form action="\submit-prompt" method="post" id="submission-form">
-        <ul>
-            <li>
-              <label for="prompt">Prompt:</label>
-              <input type="text" id="prompt" name="prompt-input" />
-            </li>
-            <li class="button">
-                <button type="submit">Create</button>
-            </li>
-          </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static',filename='rapidlabs-logo.png') }}"
+    />
+    <title>Virtual Try On App</title>
+  </head>
+  <!-- <body> -->
+  <!-- <h1>Virtual Try On App</h1> -->
+  <!-- <p>Virtually Try On clothes before making purchasing decisions</p> -->
+  <!-- <p>Generate images with stable diffusion for free! Enter your prompt below and hit "Create" to generate an image (takes ~10 seconds per image).</p> -->
+  <!-- <form action="\submit-prompt" method="post" id="submission-form">
+          <ul>
+              <li>
+                <label for="prompt">Prompt:</label>
+                <input type="text" id="prompt" name="prompt-input" />
+              </li>
+              <li class="button">
+                  <button type="submit">Create</button>
+              </li>
+            </ul>
+      </form> -->
+  <!-- <img src="{{ generated_image|default("https://images.squarespace-cdn.com/content/v1/6213c340453c3f502425776e/0715034d-4044-4c55-9131-e4bfd6dd20ca/2_4x.png?format=512w", true) }}" class="mainImg" alt="Generated Image"> -->
+  <!-- </body> -->
+  <div class="container">
+    <h1>Upload Images</h1>
+    <form
+      id="uploadForm"
+      action="/upload"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div class="form-group">
+        <label for="person">Person:</label>
+        <input
+          type="file"
+          id="person"
+          name="person"
+          accept="image/*"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="clothing">Clothing Item:</label>
+        <input
+          type="file"
+          id="clothing"
+          name="clothing"
+          accept="image/*"
+          required
+        />
+      </div>
+      <button type="submit">Upload</button>
     </form>
-    <img src="{{ generated_image|default("https://images.squarespace-cdn.com/content/v1/6213c340453c3f502425776e/0715034d-4044-4c55-9131-e4bfd6dd20ca/2_4x.png?format=512w", true) }}" class="mainImg" alt="Generated Image">
-</body>
+    <div id="result">
+      <h2>Result Image</h2>
+      <img id="resultImage" src="" alt="Result Image" />
+    </div>
+  </div>
+  <script>
+    document.getElementById('uploadForm').onsubmit = function (event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      fetch('/submit-prompt', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          document.getElementById('resultImage').src = url;
+        })
+        .catch((error) => console.error('Error:', error));
+    };
+  </script>
 </html>
