@@ -76,7 +76,12 @@ def generate_image():
 
         result_image = virtual_try_on(image, ip_image, prompt="photorealistic, perfect body, beautiful skin, realistic skin, natural skin", negative_prompt="ugly, bad quality, bad anatomy, deformed body, deformed hands, deformed feet, deformed face, deformed clothing, deformed skin, bad skin, leggings, tights, stockings")
 
-        return result_image
+        # return result_image
+        buffered = BytesIO()
+        result_image.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue())
+        img_str = "data:image/png;base64," + str(img_str)[2:-1]
+        return render_template('index.html', generated_image=img_str)
 
 if __name__ == '__main__':
     public_url = ngrok.connect(5000)
