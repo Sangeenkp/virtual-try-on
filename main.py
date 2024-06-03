@@ -47,6 +47,7 @@
 
 from flask_ngrok import run_with_ngrok
 from flask import Flask, render_template, request
+from pyngrok import ngrok
 
 import torch
 from diffusers import StableDiffusionPipeline
@@ -66,7 +67,6 @@ run_with_ngrok(app)
 def initial():
   return render_template('index.html')
 
-
 @app.route('/submit-prompt', methods=['POST'])
 def generate_image():
   prompt = request.form['prompt-input']
@@ -85,4 +85,5 @@ def generate_image():
 
 
 if __name__ == '__main__':
+    public_url = ngrok.connect(5000)
     app.run()
