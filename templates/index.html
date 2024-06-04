@@ -16,31 +16,9 @@
     />
     <title>Virtual Try On App</title>
   </head>
-  <!-- <body> -->
-  <!-- <h1>Virtual Try On App</h1> -->
-  <!-- <p>Virtually Try On clothes before making purchasing decisions</p> -->
-  <!-- <p>Generate images with stable diffusion for free! Enter your prompt below and hit "Create" to generate an image (takes ~10 seconds per image).</p> -->
-  <!-- <form action="\submit-prompt" method="post" id="submission-form">
-          <ul>
-              <li>
-                <label for="prompt">Prompt:</label>
-                <input type="text" id="prompt" name="prompt-input" />
-              </li>
-              <li class="button">
-                  <button type="submit">Create</button>
-              </li>
-            </ul>
-      </form> -->
-  <!-- <img src="{{ generated_image|default("https://images.squarespace-cdn.com/content/v1/6213c340453c3f502425776e/0715034d-4044-4c55-9131-e4bfd6dd20ca/2_4x.png?format=512w", true) }}" class="mainImg" alt="Generated Image"> -->
-  <!-- </body> -->
   <div class="container">
     <h1>Upload Images</h1>
-    <form
-      id="uploadForm"
-      action="/upload"
-      method="post"
-      enctype="multipart/form-data"
-    >
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="person">Person:</label>
         <input
@@ -65,7 +43,9 @@
     </form>
     <div id="result">
       <h2>Result Image</h2>
-      <img id="resultImage" src="" alt="Result Image" />
+      <img src="{{
+      generated_image|default("https://images.squarespace-cdn.com/content/v1/6213c340453c3f502425776e/0715034d-4044-4c55-9131-e4bfd6dd20ca/2_4x.png?format=512w",
+      true) }}" id="resultImage" alt="Generated Image">
     </div>
   </div>
   <script>
@@ -75,13 +55,36 @@
       fetch('/submit-prompt', {
         method: 'POST',
         body: formData,
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          const url = URL.createObjectURL(blob);
-          document.getElementById('resultImage').src = url;
-        })
-        .catch((error) => console.error('Error:', error));
+      }).then((response) =>
+        console.log(
+          response,
+          response.body,
+          response.formData(),
+          response.json(),
+          response.url,
+          response.text()
+        )
+      );
+      // .then((response) => response.blob())
+      // .then((blob) => {
+      //   const url = URL.createObjectURL(blob);
+      //   console.log('INSIDE UPDATION');
+      //   // console.log(response);
+      //   console.log(blob);
+      //   console.log(url);
+      //   document.getElementById('resultImage').src = url;
+      // })
+      // .catch((error) => console.error('Error:', error));
+      // .then((response) => response.blob())
+      // .then((blob) => {
+      //   const url = URL.createObjectURL(blob);
+      //   console.log('INSIDE UPDATION');
+      //   // console.log(response);
+      //   console.log(blob);
+      //   console.log(url);
+      //   document.getElementById('resultImage').src = url;
+      // })
+      // .catch((error) => console.error('Error:', error));
     };
   </script>
 </html>
