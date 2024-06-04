@@ -9,28 +9,28 @@ from pyngrok import ngrok
 import os
 from werkzeug.utils import secure_filename
 
-# vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
-# # pipeline = AutoPipelineForInpainting.from_pretrained("diffusers/stable-diffusion-xl-1.0-inpainting-0.1", vae=vae, torch_dtype=torch.float16, variant="fp16", use_safetensors=True).to("cuda")
+vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
+pipeline = AutoPipelineForInpainting.from_pretrained("diffusers/stable-diffusion-xl-1.0-inpainting-0.1", vae=vae, torch_dtype=torch.float16, variant="fp16", use_safetensors=True).to("cuda")
 # pipeline = AutoPipelineForInpainting.from_pretrained("diffusers/stable-diffusion-xl-1.0-inpainting-0.1", vae=vae, torch_dtype=torch.float16, variant="fp16", use_safetensors=True)
-# pipeline.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl.bin", low_cpu_mem_usage=True)
+pipeline.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl.bin", low_cpu_mem_usage=True)
 
-# def virtual_try_on(img, clothing, prompt, negative_prompt, ip_scale=1.0, strength=0.99, guidance_scale=7.5, steps=100):
-#     _, mask_img = segment_body(img, face=False)
-#     print("HERE 1")
-#     pipeline.set_ip_adapter_scale(ip_scale)
-#     print("HERE 2")
-#     images = pipeline(
-#         prompt=prompt,
-#         negative_prompt=negative_prompt,
-#         image=img,
-#         mask_image=mask_img,
-#         ip_adapter_image=clothing,
-#         strength=strength,
-#         guidance_scale=guidance_scale,
-#         num_inference_steps=steps,
-#     ).images
-#     print("HERE 3")
-#     return images[0]
+def virtual_try_on(img, clothing, prompt, negative_prompt, ip_scale=1.0, strength=0.99, guidance_scale=7.5, steps=100):
+    _, mask_img = segment_body(img, face=False)
+    print("HERE 1")
+    pipeline.set_ip_adapter_scale(ip_scale)
+    print("HERE 2")
+    images = pipeline(
+        prompt=prompt,
+        negative_prompt=negative_prompt,
+        image=img,
+        mask_image=mask_img,
+        ip_adapter_image=clothing,
+        strength=strength,
+        guidance_scale=guidance_scale,
+        num_inference_steps=steps,
+    ).images
+    print("HERE 3")
+    return images[0]
 
 # image = virtual_try_on(img,
 #                clothing,
@@ -74,16 +74,16 @@ def generate_image():
         image = load_image(person_path).convert("RGB")
         ip_image = load_image(clothing_path).convert("RGB")
 
-        # result_image = virtual_try_on(image, ip_image, prompt="photorealistic, perfect body, beautiful skin, realistic skin, natural skin", negative_prompt="ugly, bad quality, bad anatomy, deformed body, deformed hands, deformed feet, deformed face, deformed clothing, deformed skin, bad skin, leggings, tights, stockings")
+        result_image = virtual_try_on(image, ip_image, prompt="photorealistic, perfect body, beautiful skin, realistic skin, natural skin", negative_prompt="ugly, bad quality, bad anatomy, deformed body, deformed hands, deformed feet, deformed face, deformed clothing, deformed skin, bad skin, leggings, tights, stockings")
 
         # return result_image
         buffered = BytesIO()
-        image.save(buffered, format="PNG")
-        # result_image.save(buffered, format="PNG")
+        # image.save(buffered, format="PNG")
+        result_image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue())
         img_str = "data:image/png;base64," + str(img_str)[2:-1]
-        # return render_template('index.html', generated_image=img_str)
-        return img_str
+        return render_template('index.html', generated_image=img_str)
+        # return img_str
 
 if __name__ == '__main__':
     public_url = ngrok.connect(5000)

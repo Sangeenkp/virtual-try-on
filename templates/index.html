@@ -18,7 +18,13 @@
   </head>
   <div class="container">
     <h1>Upload Images</h1>
-    <form id="uploadForm" method="post" enctype="multipart/form-data">
+    <!-- <form id="uploadForm" method="post" enctype="multipart/form-data"> -->
+    <form
+      id="uploadForm"
+      action="\submit-prompt"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <div class="form-group">
         <label for="person">Person:</label>
         <input
@@ -48,7 +54,7 @@
       true) }}" id="resultImage" alt="Generated Image">
     </div>
   </div>
-  <script>
+  <!-- <script>
     document.getElementById('uploadForm').onsubmit = function (event) {
       event.preventDefault();
       const formData = new FormData(this);
@@ -58,11 +64,11 @@
       }).then((response) =>
         console.log(
           response,
-          response.body,
-          response.formData(),
-          response.json(),
-          response.url,
-          response.text()
+          response.body
+          // response.formData()
+          // response.json(),
+          // response.url
+          // response.text()
         )
       );
       // .then((response) => response.blob())
@@ -86,5 +92,5 @@
       // })
       // .catch((error) => console.error('Error:', error));
     };
-  </script>
+  </script> -->
 </html>
