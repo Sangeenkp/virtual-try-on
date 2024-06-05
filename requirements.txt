@@ -2,7 +2,7 @@ accelerate==0.30.1
 albucore==0.0.8
 albumentations==1.4.8
 annotated-types==0.7.0
-blinker==1.8.2
+blinker
 certifi==2024.6.2
 charset-normalizer==3.3.2
 click==8.1.7
@@ -15,7 +15,7 @@ diffusers==0.28.2
 easydict==1.13
 filelock==3.14.0
 Flask==3.0.3
-Flask-Cors==4.0.1
+FlaskCors==4.0.1
 flask-ngrok==0.0.25
 flatbuffers==24.3.25
 fonttools==4.53.0
