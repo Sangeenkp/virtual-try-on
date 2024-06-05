@@ -14,7 +14,7 @@ diffusers==0.28.2
 easydict==1.13
 filelock==3.14.0
 Flask==3.0.3
-FlaskCors==4.0.1
+Flask-Cors==4.0.1
 flask-ngrok==0.0.25
 flatbuffers==24.3.25
 fonttools==4.53.0
