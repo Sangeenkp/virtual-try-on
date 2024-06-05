@@ -2,7 +2,6 @@ accelerate==0.30.1
 albucore==0.0.8
 albumentations==1.4.8
 annotated-types==0.7.0
-blinker
 certifi==2024.6.2
 charset-normalizer==3.3.2
 click==8.1.7
