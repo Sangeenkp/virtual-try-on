@@ -64,7 +64,7 @@ def generate_image():
     clothing_image = request.files['clothing']
     print(person_image.name)
     print(clothing_image.name)
-
+    print("Before IF Statement")
     if person_image and clothing_image:
         person_filename = secure_filename(person_image.filename)
         clothing_filename = secure_filename(clothing_image.filename)
@@ -77,13 +77,13 @@ def generate_image():
 
         image = load_image(person_path).convert("RGB")
         ip_image = load_image(clothing_path).convert("RGB")
-
+        print("Before Virtual Try On")
         result_image = virtual_try_on(
             image, ip_image,
             prompt="photorealistic, perfect body, beautiful skin, realistic skin, natural skin",
             negative_prompt="ugly, bad quality, bad anatomy, deformed body, deformed hands, deformed feet, deformed face, deformed clothing, deformed skin, bad skin, leggings, tights, stockings"
         )
-
+        print("After Virtual Try on")
         buffered = BytesIO()
         result_image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue())
