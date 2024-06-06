@@ -62,16 +62,14 @@ def hello():
 def generate_image():
     person_image = request.files['person']
     clothing_image = request.files['clothing']
-    print(person_image.name)
-    print(clothing_image.name)
     print("Before IF Statement")
     if person_image and clothing_image:
         person_filename = secure_filename(person_image.filename)
         clothing_filename = secure_filename(clothing_image.filename)
-
+        print("Creating Folder")
         person_path = os.path.join(app.config['UPLOAD_FOLDER'], person_filename)
         clothing_path = os.path.join(app.config['UPLOAD_FOLDER'], clothing_filename)
-
+        print("Folder created)
         person_image.save(person_path)
         clothing_image.save(clothing_path)
 
