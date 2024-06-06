@@ -69,7 +69,7 @@ def generate_image():
         print("Creating Folder")
         person_path = os.path.join(app.config['UPLOAD_FOLDER'], person_filename)
         clothing_path = os.path.join(app.config['UPLOAD_FOLDER'], clothing_filename)
-        print("Folder created)
+        print("Folder created")
         person_image.save(person_path)
         clothing_image.save(clothing_path)
 
